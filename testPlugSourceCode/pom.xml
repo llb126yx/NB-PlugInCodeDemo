@@ -1,0 +1,115 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.thrid.party</groupId>
+	<!-- 请修改为你的编解码插件的名字，命名规范：设备类型-厂商ID-设备型号，例如：WaterMeter-Huawei-NBIoTDevice -->
+	<artifactId>MyType-ThirdParty-MyModel</artifactId>
+	<version>1.0.0</version>
+	<!-- 请检查这里的值为bundle，不能为jar -->
+	<packaging>bundle</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>4.11</junit.version>
+		<fasterxml.jackson.version>2.7.4</fasterxml.jackson.version>
+		<felix.maven.plugin.version>2.5.4</felix.maven.plugin.version>
+		<json.lib.version>2.4</json.lib.version>
+		<m2m.cig.version>1.3.1</m2m.cig.version>
+		<slf4j.api.version>1.7.6</slf4j.api.version>
+		<basedir>./</basedir>
+	</properties>
+
+	<dependencies>
+		<!-- 单元测试使用 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<!-- 日志使用 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.api.version}</version>
+		</dependency>
+		<!-- 转换JSON使用，必须 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${fasterxml.jackson.version}</version>
+		</dependency>
+		<!-- Huawei提供的编解码接口，必须 -->
+		<!-- systemPath请替换成你本地的目录 \codecDemo\lib\com.huawei.m2m.cig.tup-1.3.1.jar -->
+		<dependency>
+			<groupId>com.huawei</groupId>
+			<artifactId>protocal-jar</artifactId>
+			<version>1.3.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/com.huawei.m2m.cig.tup-1.3.1.jar</systemPath>
+		</dependency>
+
+		<!-- 本例中数据转换使用到的jar，你用到的jar请写到这里，记得把artifactId填入后面的Embed-Dependency -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- 编码需要使用JDK1.8版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<!-- OSGI规范打包配置 -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${felix.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<buildDirectory>./target</buildDirectory>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+					<instructions>
+						<Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
+						<Bundle-Activator></Bundle-Activator>
+						<Service-Component>OSGI-INF/*</Service-Component>
+						<!-- 请修改为你的编解码插件的名字，命名规范：设备类型-厂商ID-设备型号，例如：WaterMeter-Huawei-NBIoTDevice -->
+						<Bundle-SymbolicName>MyType-ThirdParty-MyModel</Bundle-SymbolicName>
+						<Export-Package></Export-Package>
+						<Import-Package>
+							org.slf4j,
+							org.slf4j.spi,
+							org.apache.log4j.spi,
+							com.huawei.m2m.cig.tup.modules.protocol_adapter,
+							com.fasterxml.jackson.databind,
+							com.fasterxml.jackson.databind.node
+						</Import-Package>
+						<!-- 除junit,slf4j-api,jackson-databind,protocal-jar， 其他所有的依赖包，必须把包对应的artifactId填入Embed-Dependency。artifactId之间以逗号分隔。 -->
+						<Embed-Dependency>
+							json-lib
+						</Embed-Dependency>
+					</instructions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-resource</id>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1547044687541
+Build-Jdk: 1.8.0_131
+Built-By: Administrator
+Bundle-ClassPath: .,json-lib-2.4-jdk15.jar
+Bundle-ManifestVersion: 2
+Bundle-Name: MyType-ThirdParty-MyModel
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-SymbolicName: MyType-ThirdParty-MyModel
+Bundle-Version: 1.0.0
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: json-lib
+Embedded-Artifacts: json-lib-2.4-jdk15.jar;g="net.sf.json-lib";a="json-l
+ ib";v="2.4";c="jdk15"
+Import-Package: org.slf4j;version="[1.7,2)",com.huawei.m2m.cig.tup.modul
+ es.protocol_adapter,com.fasterxml.jackson.databind;version="[2.7,3)",co
+ m.fasterxml.jackson.databind.node;version="[2.7,3)",org.slf4j.spi;versi
+ on="[1.7,2)",org.apache.log4j.spi
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Service-Component: OSGI-INF/*
+Tool: Bnd-2.4.1.201501161923
