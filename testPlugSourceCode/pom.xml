@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.11</junit.version>
-		<fasterxml.jackson.version>2.7.4</fasterxml.jackson.version>
+		<fasterxml.jackson.version>2.12.6.1</fasterxml.jackson.version>
 		<felix.maven.plugin.version>2.5.4</felix.maven.plugin.version>
 		<json.lib.version>2.4</json.lib.version>
 		<m2m.cig.version>1.3.1</m2m.cig.version>
